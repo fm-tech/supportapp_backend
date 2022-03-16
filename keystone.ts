@@ -5,7 +5,7 @@ It looks at the default export, and expects a Keystone config object.
 
 You can find all the config options in our docs here: https://keystonejs.com/docs/apis/config
 */
-
+import 'dotenv/config'
 import { config } from '@keystone-6/core';
 
 import { ApolloServerPluginLandingPageGraphQLPlayground,
@@ -37,7 +37,7 @@ export default withAuth(
       }
     },
     server: {
-      cors: { origin: ['http://localhost:3000'] },
+      cors: { origin: [ process.env.APP_URL ] },
       port: 3001,
       maxFileSize: 200 * 1024 * 1024,
       healthCheck: true,
