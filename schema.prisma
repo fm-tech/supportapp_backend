@@ -12,15 +12,16 @@ generator client {
 }
 
 model User {
-  id                      String   @id @default(cuid())
-  name                    String   @default("")
-  email                   String   @unique @default("")
-  isAdmin                 Boolean  @default(false)
+  id                      String      @id @default(cuid())
+  name                    String      @default("")
+  email                   String      @unique @default("")
+  isAdmin                 Boolean     @default(false)
   password                String
-  role                    Role?    @relation("User_role", fields: [roleId], references: [id])
-  roleId                  String?  @map("role")
-  from_Ticket_submittedBy Ticket[] @relation("Ticket_submittedBy")
-  from_Ticket_assignedTo  Ticket[] @relation("Ticket_assignedTo")
+  role                    Role?       @relation("User_role", fields: [roleId], references: [id])
+  roleId                  String?     @map("role")
+  department              Department? @relation("Department_users")
+  from_Ticket_submittedBy Ticket[]    @relation("Ticket_submittedBy")
+  from_Ticket_assignedTo  Ticket[]    @relation("Ticket_assignedTo")
 
   @@index([roleId])
 }
@@ -52,4 +53,11 @@ model Ticket {
 
   @@index([submittedById])
   @@index([assignedToId])
+}
+
+model Department {
+  id      String  @id @default(cuid())
+  name    String  @default("")
+  users   User?   @relation("Department_users", fields: [usersId], references: [id])
+  usersId String? @unique @map("users")
 }

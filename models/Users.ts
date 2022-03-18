@@ -29,6 +29,10 @@ export const User = list({
     role: relationship({
       ref: 'Role.users',
       access: permissions.canManageUsers || isAdmin,
+    }),
+    department: relationship({
+      ref: 'Department.users',
+      access: permissions.canManageUsers || isAdmin,
     })
   },
   ui: {
@@ -47,7 +51,10 @@ export const Group = list({
 
 export const Department = list({
   fields: {
-    name: text()
+    name: text(),
+    users: relationship({
+      ref: 'User.department'
+    })
   }
 })
 

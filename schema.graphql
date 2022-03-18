@@ -8,6 +8,7 @@ type User {
   isAdmin: Boolean
   password: PasswordState
   role: Role
+  department: Department
 }
 
 type PasswordState {
@@ -28,6 +29,7 @@ input UserWhereInput {
   email: StringFilter
   isAdmin: BooleanFilter
   role: RoleWhereInput
+  department: DepartmentWhereInput
 }
 
 input IDFilter {
@@ -92,11 +94,18 @@ input UserUpdateInput {
   isAdmin: Boolean
   password: String
   role: RoleRelateToOneForUpdateInput
+  department: DepartmentRelateToOneForUpdateInput
 }
 
 input RoleRelateToOneForUpdateInput {
   create: RoleCreateInput
   connect: RoleWhereUniqueInput
+  disconnect: Boolean
+}
+
+input DepartmentRelateToOneForUpdateInput {
+  create: DepartmentCreateInput
+  connect: DepartmentWhereUniqueInput
   disconnect: Boolean
 }
 
@@ -111,11 +120,17 @@ input UserCreateInput {
   isAdmin: Boolean
   password: String
   role: RoleRelateToOneForCreateInput
+  department: DepartmentRelateToOneForCreateInput
 }
 
 input RoleRelateToOneForCreateInput {
   create: RoleCreateInput
   connect: RoleWhereUniqueInput
+}
+
+input DepartmentRelateToOneForCreateInput {
+  create: DepartmentCreateInput
+  connect: DepartmentWhereUniqueInput
 }
 
 type Group {
@@ -327,6 +342,45 @@ input UserRelateToOneForCreateInput {
   connect: UserWhereUniqueInput
 }
 
+type Department {
+  id: ID!
+  name: String
+  users: User
+}
+
+input DepartmentWhereUniqueInput {
+  id: ID
+}
+
+input DepartmentWhereInput {
+  AND: [DepartmentWhereInput!]
+  OR: [DepartmentWhereInput!]
+  NOT: [DepartmentWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  users: UserWhereInput
+}
+
+input DepartmentOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input DepartmentUpdateInput {
+  name: String
+  users: UserRelateToOneForUpdateInput
+}
+
+input DepartmentUpdateArgs {
+  where: DepartmentWhereUniqueInput!
+  data: DepartmentUpdateInput!
+}
+
+input DepartmentCreateInput {
+  name: String
+  users: UserRelateToOneForCreateInput
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -360,6 +414,15 @@ type Mutation {
   updateTickets(data: [TicketUpdateArgs!]!): [Ticket]
   deleteTicket(where: TicketWhereUniqueInput!): Ticket
   deleteTickets(where: [TicketWhereUniqueInput!]!): [Ticket]
+  createDepartment(data: DepartmentCreateInput!): Department
+  createDepartments(data: [DepartmentCreateInput!]!): [Department]
+  updateDepartment(
+    where: DepartmentWhereUniqueInput!
+    data: DepartmentUpdateInput!
+  ): Department
+  updateDepartments(data: [DepartmentUpdateArgs!]!): [Department]
+  deleteDepartment(where: DepartmentWhereUniqueInput!): Department
+  deleteDepartments(where: [DepartmentWhereUniqueInput!]!): [Department]
   endSession: Boolean!
   authenticateUserWithPassword(
     email: String!
@@ -422,6 +485,14 @@ type Query {
   ): [Ticket!]
   ticket(where: TicketWhereUniqueInput!): Ticket
   ticketsCount(where: TicketWhereInput! = {}): Int
+  departments(
+    where: DepartmentWhereInput! = {}
+    orderBy: [DepartmentOrderByInput!]! = []
+    take: Int
+    skip: Int! = 0
+  ): [Department!]
+  department(where: DepartmentWhereUniqueInput!): Department
+  departmentsCount(where: DepartmentWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

@@ -31,7 +31,7 @@ export default withAuth(
       apolloConfig: {
         plugins: [
           process.env.NODE_ENV !== 'production'
-            ? ApolloServerPluginLandingPageDisacobled()
+            ? ApolloServerPluginLandingPageDisabled()
             : ApolloServerPluginLandingPageGraphQLPlayground(),
         ],
       }
