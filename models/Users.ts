@@ -52,6 +52,16 @@ export const Group = list({
 export const Department = list({
   fields: {
     name: text(),
+    code: text(
+      {validation:
+        {isRequired: true,
+          length: {
+            max: 10
+          }
+        },
+        isIndexed: 'unique' 
+     }
+    ),
     users: relationship({
       ref: 'User.department'
     })

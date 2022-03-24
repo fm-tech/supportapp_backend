@@ -58,6 +58,7 @@ model Ticket {
 model Department {
   id      String  @id @default(cuid())
   name    String  @default("")
+  code    String  @unique @default("")
   users   User?   @relation("Department_users", fields: [usersId], references: [id])
   usersId String? @unique @map("users")
 }

@@ -345,11 +345,13 @@ input UserRelateToOneForCreateInput {
 type Department {
   id: ID!
   name: String
+  code: String
   users: User
 }
 
 input DepartmentWhereUniqueInput {
   id: ID
+  code: String
 }
 
 input DepartmentWhereInput {
@@ -358,16 +360,19 @@ input DepartmentWhereInput {
   NOT: [DepartmentWhereInput!]
   id: IDFilter
   name: StringFilter
+  code: StringFilter
   users: UserWhereInput
 }
 
 input DepartmentOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  code: OrderDirection
 }
 
 input DepartmentUpdateInput {
   name: String
+  code: String
   users: UserRelateToOneForUpdateInput
 }
 
@@ -378,6 +383,7 @@ input DepartmentUpdateArgs {
 
 input DepartmentCreateInput {
   name: String
+  code: String
   users: UserRelateToOneForCreateInput
 }
 
