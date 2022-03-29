@@ -1,32 +1,17 @@
 # https://docs.docker.com/samples/library/node/
-ARG NODE_VERSION=16.14.0
-# https://github.com/Yelp/dumb-init/releases
-ARG DUMB_INIT_VERSION=1.2.5
+FROM node:lts
+WORKDIR /app
+COPY . .
 
-# Build container
-FROM node:${NODE_VERSION}-alpine AS build
-ARG DUMB_INIT_VERSION
+RUN npm install
 
-WORKDIR /home/node
+RUN npm run postinstall --fix
 
-RUN apk add --no-cache build-base python2 yarn && \
-    wget -O dumb-init -q https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 && \
-    chmod +x dumb-init
-ADD ./package.json ./package.json
-ADD ./yarn.lock ./yarn.lock
+RUN npm run build
 
-RUN yarn install 
+ENV NODE_ENV production
 
-ADD . /home/node
+EXPOSE 3001
 
-RUN yarn build && yarn cache clean
+CMD ["npm", "start"]
 
-# Runtime container
-FROM node:${NODE_VERSION}-alpine
-
-WORKDIR /home/node
-
-COPY --from=build /home/node /home/node
-
-EXPOSE 3000
-CMD ["./dumb-init", "yarn", "start"]
