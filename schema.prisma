@@ -45,7 +45,8 @@ model Ticket {
   ticketNo      Int?
   post          String    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   priority      Int?
-  submitedOn    DateTime?
+  submitedOn    DateTime? @default(now())
+  alias         String    @default("")
   submittedBy   User?     @relation("Ticket_submittedBy", fields: [submittedById], references: [id])
   submittedById String?   @map("submittedBy")
   assignedTo    User?     @relation("Ticket_assignedTo", fields: [assignedToId], references: [id])

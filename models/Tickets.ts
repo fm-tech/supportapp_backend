@@ -6,6 +6,7 @@ import { integer,
     timestamp,
 } from "@keystone-6/core/fields";
 import { document } from '@keystone-6/fields-document';
+import { Kind } from "graphql";
 
 export const Ticket = list ({
     fields: {
@@ -33,7 +34,11 @@ export const Ticket = list ({
    
             ]
         }),
-        submitedOn: timestamp(),
+        submitedOn: timestamp(
+           { defaultValue: {kind: "now"}}
+        ),
+        alias: text({
+        }),
         submittedBy: relationship({
             ref: 'User',
             many: false

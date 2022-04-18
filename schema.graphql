@@ -248,6 +248,7 @@ type Ticket {
   post: Ticket_post_Document
   priority: Int
   submitedOn: DateTime
+  alias: String
   submittedBy: User
   assignedTo: User
 }
@@ -272,6 +273,7 @@ input TicketWhereInput {
   ticketNo: IntNullableFilter
   priority: IntNullableFilter
   submitedOn: DateTimeNullableFilter
+  alias: StringFilter
   submittedBy: UserWhereInput
   assignedTo: UserWhereInput
 }
@@ -304,6 +306,7 @@ input TicketOrderByInput {
   ticketNo: OrderDirection
   priority: OrderDirection
   submitedOn: OrderDirection
+  alias: OrderDirection
 }
 
 input TicketUpdateInput {
@@ -312,6 +315,7 @@ input TicketUpdateInput {
   post: JSON
   priority: Int
   submitedOn: DateTime
+  alias: String
   submittedBy: UserRelateToOneForUpdateInput
   assignedTo: UserRelateToOneForUpdateInput
 }
@@ -333,6 +337,7 @@ input TicketCreateInput {
   post: JSON
   priority: Int
   submitedOn: DateTime
+  alias: String
   submittedBy: UserRelateToOneForCreateInput
   assignedTo: UserRelateToOneForCreateInput
 }
