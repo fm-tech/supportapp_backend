@@ -1,11 +1,10 @@
+import * as dotenv from 'dotenv'
+import connectionsConfig from './connections.config';
 /*
 Welcome to Keystone! This file is what keystone uses to start the app.
-
 It looks at the default export, and expects a Keystone config object.
-
 You can find all the config options in our docs here: https://keystonejs.com/docs/apis/config
 */
-import 'dotenv/config'
 import { config } from '@keystone-6/core';
 
 import { ApolloServerPluginLandingPageGraphQLPlayground,
@@ -18,13 +17,15 @@ import { lists } from './schema';
 // Keystone auth is configured separately - check out the basic auth setup we are importing from our auth file.
 import { withAuth, session } from './auth';
 
+dotenv.config()
+
 export default withAuth(
   // Using the config function helps typescript guide you to the available options.
   config({
     // the db sets the database provider - we're using sqlite for the fastest startup experience
     db: {
-      provider: process.env.DB_PROVIDER,
-      url: process.env.DB_STRING,
+      provider: connectionsConfig.dbProvider,
+      url: connectionsConfig.dbConnection,
     },
     graphql: {
       playground: true,
